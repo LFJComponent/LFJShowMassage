@@ -6,6 +6,20 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		61B38CF320D037E100BED3C1 /* LFJShowFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 61B38CF420D037E100BED3C1 /* Build configuration list for PBXAggregateTarget "LFJShowFramework" */;
+			buildPhases = (
+				61B38CF720D0381500BED3C1 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = LFJShowFramework;
+			productName = LFJShowFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		61B38CE720D0164700BED3C1 /* LFJShowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 61B38CE520D0164700BED3C1 /* LFJShowManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61B38CF120D016CB00BED3C1 /* STShowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 61B38CEF20D016CB00BED3C1 /* STShowManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -103,6 +117,9 @@
 					61B38CE120D0164700BED3C1 = {
 						CreatedOnToolsVersion = 9.3;
 					};
+					61B38CF320D037E100BED3C1 = {
+						CreatedOnToolsVersion = 9.3;
+					};
 				};
 			};
 			buildConfigurationList = 61B38CDC20D0164700BED3C1 /* Build configuration list for PBXProject "LFJShowManager" */;
@@ -118,6 +135,7 @@
 			projectRoot = "";
 			targets = (
 				61B38CE120D0164700BED3C1 /* LFJShowManager */,
+				61B38CF320D037E100BED3C1 /* LFJShowFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -131,6 +149,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		61B38CF720D0381500BED3C1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\n# 如果工程名称和Framework的Target名称不一样的话，要自定义FMKNAME\n# 例如: FMK_NAME = \"MyFramework\"\nFMK_NAME=${PROJECT_NAME}\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n# -configuration ${CONFIGURATION}\n# Clean and Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos clean build\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator clean build\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\nmkdir -p \"${INSTALL_DIR}\"\ncp -R \"${DEVICE_DIR}/\" \"${INSTALL_DIR}/\"\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"\nopen \"${INSTALL_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		61B38CDD20D0164700BED3C1 /* Sources */ = {
@@ -277,6 +311,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "---.LFJShowManager";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -302,11 +337,30 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "---.LFJShowManager";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		61B38CF520D037E100BED3C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 958QKCHZMZ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		61B38CF620D037E100BED3C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 958QKCHZMZ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -327,6 +381,15 @@
 			buildConfigurations = (
 				61B38CEB20D0164700BED3C1 /* Debug */,
 				61B38CEC20D0164700BED3C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		61B38CF420D037E100BED3C1 /* Build configuration list for PBXAggregateTarget "LFJShowFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61B38CF520D037E100BED3C1 /* Debug */,
+				61B38CF620D037E100BED3C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
