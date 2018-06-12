@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "LFJShowMassage"
-  s.version      = "0.0.3"
+  s.version      = "0.0.4"
   s.summary      = "弹出得分."
   s.description  = "弹出框测试斤斤计较"
 
