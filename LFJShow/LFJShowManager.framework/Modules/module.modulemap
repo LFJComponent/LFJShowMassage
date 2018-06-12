@@ -1,0 +1,6 @@
+framework module LFJShowManager {
+  umbrella header "LFJShowManager.h"
+
+  export *
+  module * { export * }
+}
